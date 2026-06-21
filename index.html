@@ -248,7 +248,8 @@ section[id], #hero{scroll-margin-top:calc(var(--nav-h) + 12px);}
 .pizza-disc .topping{position:absolute;border-radius:50%;}
 .pizza-disc .pepperoni{width:13%;aspect-ratio:1;background:radial-gradient(circle at 40% 35%,#d0492f,#9c2f1c);box-shadow:inset 0 0 4px rgba(0,0,0,.4);}
 .pizza-disc .basil{width:10%;aspect-ratio:1;background:radial-gradient(circle at 40% 35%,#5f8b3a,#2f5320);border-radius:60% 0 60% 60%;}
-.pizza-deco__spin{width:100%;height:100%;display:grid;place-items:center;animation:heroPizzaSpin 40s linear infinite;}
+.pizza-deco__spin{width:100%;height:100%;display:grid;place-items:center;animation:spinPizza 24s linear infinite;will-change:transform;transform-origin:50% 50%;}
+@keyframes spinPizza{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
 /* =========================================================
    OFERTA / OKAZJE
@@ -558,6 +559,8 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
   .js .reveal,.js .stagger > *{opacity:1!important;transform:none!important;}
   .hero__pizza-img{animation:none!important;}
+  /* dekoracyjna pizza kręci się dalej (na życzenie) — wolny, łagodny obrót */
+  .pizza-deco__spin{animation:spinPizza 24s linear infinite!important;}
   .pizza-card__inner{transition:none!important;}
 }
 /* =========================================================
