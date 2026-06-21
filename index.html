@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="pl" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sognare Pizza — Mobilna pizzeria neapolitańska · Live cooking na eventach</title>
+<meta name="description" content="Sognare Pizza — mobilna pizzeria z live cookingiem. Świeża pizza neapolitańska prosto z pieca, przygotowywana na oczach gości na weselach, urodzinach i eventach firmowych. Zarezerwuj datę." />
+<meta name="theme-color" content="#F7F1E3" />
+<meta property="og:title" content="Sognare Pizza — Pizza prosto z pieca, na oczach Twoich gości" />
+<meta property="og:description" content="Mobilna pizzeria neapolitańska. Live cooking na weselach, urodzinach i eventach." />
+<meta property="og:type" content="website" />
+
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   SOGNARE PIZZA — design tokens
+   ========================================================= */
+:root{
+  --cream:        #F7F1E3;   /* tło */
+  --cream-soft:   #FBF7EC;   /* jaśniejsza powierzchnia kart */
+  --cream-deep:   #EFE6D2;   /* delikatne wgłębienie */
+  --terracotta:   #C2542A;   /* akcent główny (duże elementy) */
+  --terracotta-d: #A8431F;   /* ciemniejszy — drobny tekst (AA) */
+  --terracotta-l: #D97A50;   /* rozjaśnienie do glow */
+  --ink:          #1A1A1A;   /* tekst / drugi akcent */
+  --ink-soft:     #57504A;   /* tekst drugorzędny */
+  --plate:        #241C17;   /* ciemna „deska" pod pizzą */
+
+  --maxw: 1600px;            /* pełniejsza, szeroka strona */
+  --maxw-wide: 1840px;       /* sekcje obrazowe — niemal pełny ekran */
+  --nav-h: 70px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --shadow-sm: 0 2px 10px rgba(38,24,12,.06);
+  --shadow-md: 0 14px 40px -18px rgba(60,30,10,.30);
+  --shadow-lg: 0 30px 70px -30px rgba(60,30,10,.45);
+  --ease: cubic-bezier(.22,.61,.36,1);
+
+  --ff-script: 'Dancing Script', cursive;
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-sans: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* =========================================================
+   Reset / podstawy
+   ========================================================= */
+*{box-sizing:border-box;}
+*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  font-family:var(--ff-sans);
+  color:var(--ink);
+  background:var(--cream);
+  line-height:1.65;
+  font-size:clamp(16px,1.0vw + 14px,17px);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+h1,h2,h3,h4{font-family:var(--ff-display);line-height:1.1;margin:0;font-weight:600;letter-spacing:.005em;}
+p{margin:0;}
+:focus-visible{outline:3px solid var(--terracotta);outline-offset:3px;border-radius:6px;}
+
+.container{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(20px,4vw,56px);}
+.container--wide{max-width:var(--maxw-wide);}
+.section{padding-block:clamp(72px,9vw,132px);position:relative;z-index:2;}
+section[id], #hero{scroll-margin-top:calc(var(--nav-h) + 12px);}
+
+/* eyebrow */
+.eyebrow{
+  font-size:.74rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--terracotta-d);display:inline-flex;align-items:center;gap:.7em;margin-bottom:1.1rem;
+}
+.eyebrow::before{content:"";width:34px;height:1.5px;background:var(--terracotta);display:inline-block;}
+.section-head{max-width:720px;margin-bottom:clamp(40px,6vw,68px);}
+.section-head.center{margin-inline:auto;text-align:center;}
+.section-head.center .eyebrow::before{display:none;}
+.section-title{font-size:clamp(2rem,4.4vw,3.5rem);font-weight:600;}
+.section-title em{font-family:var(--ff-script);font-style:normal;color:var(--terracotta);font-weight:700;font-size:1.18em;}
+.section-sub{margin-top:1.1rem;color:var(--ink-soft);font-size:1.08rem;max-width:62ch;}
+.section-head.center .section-sub{margin-inline:auto;}
+
+/* =========================================================
+   Buttony
+   ========================================================= */
+.btn{
+  --bg:var(--terracotta);--fg:#fff;
+  display:inline-flex;align-items:center;justify-content:center;gap:.6em;
+  min-height:52px;padding:0 1.9rem;border-radius:100px;border:2px solid var(--bg);
+  background:var(--bg);color:var(--fg);font-weight:600;font-size:.98rem;letter-spacing:.02em;
+  transition:transform .22s var(--ease), background-color .25s var(--ease),
+             border-color .25s var(--ease), color .25s var(--ease), box-shadow .25s var(--ease);
+  box-shadow:var(--shadow-sm);
+}
+.btn:hover{background:var(--ink);border-color:var(--ink);color:#fff;transform:translateY(-3px) scale(1.025);box-shadow:var(--shadow-md);}
+.btn:active{transform:translateY(-1px) scale(.99);}
+.btn--ghost{--bg:transparent;--fg:var(--ink);border-color:rgba(26,26,26,.28);box-shadow:none;}
+.btn--ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn--lg{min-height:58px;padding:0 2.4rem;font-size:1.02rem;}
+.btn svg{width:1.15em;height:1.15em;}
+
+/* =========================================================
+   Nawigacja
+   ========================================================= */
+.nav{
+  position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:100;
+  display:flex;align-items:center;
+  transition:background-color .3s var(--ease), box-shadow .3s var(--ease), backdrop-filter .3s;
+}
+.nav__inner{display:flex;align-items:center;justify-content:space-between;width:100%;}
+.nav.is-scrolled{background:rgba(247,241,227,.86);backdrop-filter:blur(12px) saturate(1.2);box-shadow:0 1px 0 rgba(26,26,26,.07), var(--shadow-sm);}
+
+.brand{display:flex;flex-direction:column;line-height:.82;}
+.brand__script{font-family:var(--ff-script);color:var(--terracotta);font-size:1.85rem;font-weight:700;}
+.brand__word{font-family:var(--ff-sans);color:var(--ink);font-weight:700;font-size:.7rem;letter-spacing:.42em;text-transform:uppercase;padding-left:.18em;}
+
+.nav__links{display:flex;align-items:center;gap:.4rem;}
+.nav__links a{
+  padding:.55rem .9rem;font-weight:500;font-size:.92rem;border-radius:100px;position:relative;color:var(--ink);
+  transition:color .2s var(--ease),background-color .2s var(--ease);
+}
+.nav__links a:not(.btn)::after{
+  content:"";position:absolute;left:.9rem;right:.9rem;bottom:.32rem;height:1.5px;background:var(--terracotta);
+  transform:scaleX(0);transform-origin:left;transition:transform .28s var(--ease);
+}
+.nav__links a:not(.btn):hover::after{transform:scaleX(1);}
+.nav__links a:not(.btn):hover{color:var(--terracotta-d);}
+.nav__cta{margin-left:.6rem;min-height:44px;padding:0 1.3rem;font-size:.9rem;}
+
+.nav__toggle{display:none;width:46px;height:46px;border:none;background:transparent;border-radius:12px;padding:0;align-items:center;justify-content:center;}
+.nav__toggle span{position:relative;width:24px;height:2px;background:var(--ink);display:block;transition:.25s var(--ease);}
+.nav__toggle span::before,.nav__toggle span::after{content:"";position:absolute;left:0;width:24px;height:2px;background:var(--ink);transition:.25s var(--ease);}
+.nav__toggle span::before{top:-7px;}
+.nav__toggle span::after{top:7px;}
+.nav.is-open .nav__toggle span{background:transparent;}
+.nav.is-open .nav__toggle span::before{top:0;transform:rotate(45deg);}
+.nav.is-open .nav__toggle span::after{top:0;transform:rotate(-45deg);}
+
+/* =========================================================
+   HERO — NOWY UKŁAD ROZCIĄGNIĘTY (DWUKOLUMNOWY)
+   ========================================================= */
+.hero{
+  position:relative;min-height:100svh;display:flex;align-items:center;
+  padding-top:var(--nav-h);overflow:hidden;
+  background:
+    radial-gradient(100% 80% at 80% 100%, rgba(194,84,42,.15) 0%, transparent 50%),
+    radial-gradient(60% 50% at 10% 10%, rgba(217,122,80,.05), transparent 50%),
+    var(--cream);
+}
+.hero__glow{position:absolute;right:5%;bottom:-5%;width:600px;height:600px;
+  background:radial-gradient(circle, rgba(255,150,70,.15), rgba(194,84,42,0) 70%);
+  filter:blur(40px);z-index:0;}
+
+.hero__content{
+  position:relative;z-index:3;width:100%;
+  display:grid;grid-template-columns:1.1fr 0.9fr;
+  gap:clamp(40px, 5vw, 100px);
+  align-items:center;
+  text-align:left;
+}
+.hero__text{
+  display:flex;flex-direction:column;align-items:flex-start;
+}
+.hero__visual{
+  display:flex;justify-content:center;align-items:center;position:relative;
+}
+.hero__pizza-img{
+  width:100%;
+  max-width:540px;
+  aspect-ratio:1;
+  object-fit:cover;
+  border-radius:50%;
+  box-shadow:var(--shadow-lg);
+  animation:heroPizzaSpin 80s linear infinite;
+}
+@keyframes heroPizzaSpin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+.hero__eyebrow{justify-content:flex-start;}
+.hero .brand--hero{display:inline-flex;flex-direction:column;line-height:.78;margin-bottom:1.8rem;}
+.hero .brand--hero .brand__script{font-size:clamp(4.5rem,8vw,7.5rem);text-shadow:0 6px 30px rgba(194,84,42,.1);}
+.hero .brand--hero .brand__word{font-size:clamp(1.1rem,2vw,1.6rem);letter-spacing:.5em;padding-left:.5em;margin-top:.2rem;}
+
+.hero__tagline{font-family:var(--ff-display);font-style:italic;font-weight:500;
+  font-size:clamp(1.5rem,3vw,2.4rem);max-width:24ch;margin:0 0 1.2rem;color:var(--ink);line-height:1.2;}
+.hero__sub{color:var(--ink-soft);max-width:52ch;margin:0 0 2.5rem;font-size:1.1rem;}
+.hero__actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:flex-start;}
+
+/* =========================================================
+   JAK TO DZIAŁA
+   ========================================================= */
+.how{background:linear-gradient(180deg,var(--cream) 0%, var(--cream-deep) 100%);}
+.how__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.4vw,34px);align-items:start;}
+.feature{
+  background:var(--cream-soft);border:1px solid rgba(26,26,26,.07);border-radius:var(--radius-lg);
+  padding:clamp(26px,2.6vw,40px);box-shadow:var(--shadow-sm);
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s;
+}
+.feature:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:rgba(194,84,42,.30);}
+.feature__icon{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;margin-bottom:1.3rem;
+  background:radial-gradient(circle at 30% 25%, var(--terracotta-l), var(--terracotta));color:#fff;box-shadow:0 10px 22px -10px rgba(194,84,42,.7);}
+.feature__icon svg{width:30px;height:30px;}
+.feature__num{font-family:var(--ff-display);font-style:italic;color:var(--terracotta);font-size:.95rem;margin-bottom:.4rem;}
+.feature h3{font-size:1.5rem;margin-bottom:.6rem;}
+.feature p{color:var(--ink-soft);font-size:1.02rem;}
+
+.how__intro{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(36px,5vw,80px);align-items:center;margin-bottom:clamp(48px,6vw,88px);}
+.how__copy p{color:var(--ink-soft);margin-top:1rem;font-size:1.1rem;max-width:60ch;}
+.how__stats{display:flex;gap:2.4rem;margin-top:2rem;flex-wrap:wrap;}
+.stat{position:relative;padding-left:1.1rem;}
+.stat::before{content:"";position:absolute;left:0;top:.2rem;bottom:.2rem;width:3px;border-radius:3px;background:var(--terracotta);}
+.stat b{font-family:var(--ff-display);font-size:2rem;display:block;line-height:1;color:var(--ink);}
+.stat span{font-size:.82rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.1em;}
+
+.pizza-deco{position:relative;width:100%;max-width:460px;margin-inline:auto;aspect-ratio:1;display:grid;place-items:center;}
+.pizza-deco__plate{position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle,#efe6d3,#d8c9ad);box-shadow:var(--shadow-lg);}
+.pizza-disc{
+  position:relative;width:84%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%, #b9803f 0 79%, #9a6630 79% 86%, #6f4422 86% 93%, #4a2c16 93% 100%);
+  box-shadow:inset 0 0 30px rgba(0,0,0,.25), var(--shadow-md);
+}
+.pizza-disc::before{
+  content:"";position:absolute;inset:8%;border-radius:50%;
+  background:
+    radial-gradient(circle at 36% 38%, rgba(245,232,196,.95) 0 8%, transparent 9%),
+    radial-gradient(circle at 64% 34%, rgba(245,232,196,.9) 0 6%, transparent 7%),
+    radial-gradient(circle at 30% 64%, rgba(241,225,182,.9) 0 7%, transparent 8%),
+    radial-gradient(circle at 70% 66%, rgba(245,232,196,.9) 0 6%, transparent 7%),
+    radial-gradient(circle at 50% 52%, rgba(241,225,182,.85) 0 5%, transparent 6%),
+    radial-gradient(circle, #c0492b 0 100%);
+}
+.pizza-disc .topping{position:absolute;border-radius:50%;}
+.pizza-disc .pepperoni{width:13%;aspect-ratio:1;background:radial-gradient(circle at 40% 35%,#d0492f,#9c2f1c);box-shadow:inset 0 0 4px rgba(0,0,0,.4);}
+.pizza-disc .basil{width:10%;aspect-ratio:1;background:radial-gradient(circle at 40% 35%,#5f8b3a,#2f5320);border-radius:60% 0 60% 60%;}
+.pizza-deco__spin{width:100%;height:100%;display:grid;place-items:center;animation:heroPizzaSpin 40s linear infinite;}
+
+/* =========================================================
+   OFERTA / OKAZJE
+   ========================================================= */
+.offer__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,1.6vw,24px);}
+.occasion{
+  position:relative;border-radius:var(--radius-lg);overflow:hidden;min-height:clamp(360px,40vw,460px);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:28px;color:#fff;isolation:isolate;background:var(--plate);box-shadow:var(--shadow-md);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.occasion__bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease), filter .5s;}
+.occasion::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,12,8,.10) 0%, rgba(20,12,8,.42) 48%, rgba(20,12,8,.88) 100%);transition:opacity .4s;}
+.occasion:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);}
+.occasion:hover .occasion__bg{transform:scale(1.09);}
+.occasion__tag{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#ffd9c4;margin-bottom:.5rem;}
+.occasion h3{font-size:1.7rem;color:#fff;margin-bottom:.45rem;}
+.occasion p{font-size:.95rem;color:rgba(255,255,255,.88);max-height:0;opacity:0;overflow:hidden;transition:max-height .45s var(--ease), opacity .4s var(--ease), margin .4s;}
+.occasion:hover p{max-height:160px;opacity:1;margin-top:.2rem;}
+
+/* =========================================================
+   GALERIA — NOWE INTERAKTYWNE KARTY 3D (FLIP CARDS)
+   ========================================================= */
+.gallery__grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(20px,2.5vw,36px);
+  perspective:1500px; /* Przestrzeń trójwymiarowa dla obrotu */
+}
+.pizza-card {
+  background:transparent;
+  border:none;
+  padding:0;
+  margin:0;
+  width:100%;
+  aspect-ratio:1;
+  cursor:pointer;
+  position:relative;
+  outline:none;
+}
+.pizza-card__inner {
+  position:relative;
+  width:100%;
+  height:100%;
+  text-align:left;
+  transition:transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-style:preserve-3d;
+}
+/* Klasa dodawana przez JavaScript po kliknięciu — obrót + płynne powiększenie */
+.pizza-card.is-flipped {
+  z-index:5;
+}
+.pizza-card.is-flipped .pizza-card__inner {
+  transform:rotateY(180deg) scale(1.12);
+}
+.pizza-card.is-flipped .pizza-card__back {
+  box-shadow:var(--shadow-lg);
+}
+.pizza-card__front, .pizza-card__back {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  backface-visibility:hidden;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow-md);
+}
+
+/* Przód karty */
+.pizza-card__front {
+  background:var(--plate);
+}
+.pizza-card__front img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 0.5s var(--ease);
+}
+.pizza-card:hover .pizza-card__front img {
+  transform:scale(1.04);
+}
+.pizza-card__front::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, transparent 40%, rgba(15,9,5,0.85) 100%);
+  z-index:1;
+}
+.pizza-card .shot__cap {
+  position:absolute;
+  left:24px;
+  right:24px;
+  bottom:22px;
+  z-index:2;
+  color:#fff;
+  transition:transform 0.4s var(--ease);
+}
+.pizza-card:hover .shot__cap {
+  transform:translateY(-4px);
+}
+.pizza-card .shot__cap b {
+  font-family:var(--ff-display);
+  font-size:1.4rem;
+  display:block;
+}
+.pizza-card .shot__cap span {
+  font-size:.78rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#ffd9c4;
+}
+.pizza-card__hint-icon {
+  position:absolute;
+  top:16px;
+  right:16px;
+  z-index:2;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:rgba(247,241,227,0.9);
+  color:var(--terracotta);
+  display:grid;
+  place-items:center;
+  box-shadow:var(--shadow-sm);
+  transition:transform 0.3s var(--ease);
+}
+.pizza-card:hover .pizza-card__hint-icon {
+  transform:scale(1.1);
+}
+.pizza-card__hint-icon svg {
+  width:18px;
+  height:18px;
+}
+
+/* Tył karty (Opis rozwijany płynnie obrotem) */
+.pizza-card__back {
+  background:var(--cream-soft);
+  transform:rotateY(180deg);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:32px;
+  border:2px solid var(--cream-deep);
+}
+.pizza-card__back::before {
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:6px;
+  background:linear-gradient(90deg, var(--terracotta), var(--terracotta-l));
+}
+.pizza-card__back h3 {
+  font-family:var(--ff-display);
+  font-size:1.8rem;
+  color:var(--ink);
+  margin-bottom:0.6rem;
+}
+.pizza-card__back .kind {
+  font-size:0.75rem;
+  text-transform:uppercase;
+  letter-spacing:0.15em;
+  color:var(--terracotta-d);
+  font-weight:600;
+  margin-bottom:1.2rem;
+}
+.pizza-card__back p {
+  color:var(--ink-soft);
+  font-size:1rem;
+  line-height:1.6;
+}
+.pizza-card__back .meta {
+  margin-top:1.5rem;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  font-size:0.82rem;
+  font-weight:600;
+  color:var(--terracotta-d);
+}
+.pizza-card__back .meta svg {
+  width:16px;
+  height:16px;
+}
+
+/* =========================================================
+   FORMULARZ REZERWACJI
+   ========================================================= */
+.book{background:linear-gradient(180deg,var(--cream-deep),var(--cream));}
+.book__wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,4vw,72px);align-items:start;}
+.book__aside .section-title{font-size:clamp(2rem,3.6vw,3rem);}
+.book__aside p{color:var(--ink-soft);margin-top:1.1rem;max-width:46ch;}
+.book__contactlist{list-style:none;padding:0;margin:2rem 0 0;display:grid;gap:1rem;}
+.book__contactlist li{display:flex;gap:.9rem;align-items:center;font-weight:500;}
+.book__contactlist .ic{width:42px;height:42px;border-radius:12px;background:var(--cream-soft);border:1px solid rgba(26,26,26,.08);display:grid;place-items:center;color:var(--terracotta);flex:0 0 auto;}
+.book__contactlist .ic svg{width:20px;height:20px;}
+.book__contactlist small{display:block;color:var(--ink-soft);font-weight:400;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;}
+
+.form-card{background:var(--cream-soft);border:1px solid rgba(26,26,26,.08);border-radius:var(--radius-lg);padding:clamp(24px,2.8vw,44px);box-shadow:var(--shadow-lg);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;}
+.field{display:flex;flex-direction:column;gap:.4rem;}
+.field.full{grid-column:1 / -1;}
+.field label{font-size:.82rem;font-weight:600;letter-spacing:.04em;color:var(--ink);}
+.field .req{color:var(--terracotta);margin-left:.15em;}
+.field .hint{font-size:.74rem;color:var(--ink-soft);font-weight:400;}
+.control{
+  width:100%;min-height:52px;padding:.75rem 1rem;border-radius:14px;font-family:inherit;font-size:1rem;color:var(--ink);
+  background:var(--cream);border:1.5px solid rgba(26,26,26,.16);transition:border-color .2s,box-shadow .2s,background-color .2s;
+  appearance:none;
+}
+textarea.control{min-height:120px;resize:vertical;line-height:1.5;}
+.control::placeholder{color:#a89e8e;}
+.control:focus{outline:none;border-color:var(--terracotta);box-shadow:0 0 0 4px rgba(194,84,42,.16);background:#fff;}
+select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%23A8431F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 8 10 12 14 8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.6rem;cursor:pointer;}
+.control[type="date"]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.6;}
+.field .error{font-size:.78rem;color:var(--terracotta-d);font-weight:600;min-height:0;display:flex;align-items:center;gap:.35em;}
+.field.invalid .control{border-color:var(--terracotta-d);box-shadow:0 0 0 4px rgba(168,67,31,.12);}
+.field .error svg{width:14px;height:14px;flex:0 0 auto;}
+
+.form-foot{margin-top:1.6rem;display:flex;flex-wrap:wrap;align-items:center;gap:1rem;justify-content:space-between;}
+.form-foot .note{font-size:.8rem;color:var(--ink-soft);max-width:34ch;}
+
+.success{display:none;text-align:center;padding:clamp(20px,3vw,30px) 0;}
+.success.show{display:block;animation:popIn .5s var(--ease);}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.success__check{width:76px;height:76px;border-radius:50%;margin:0 auto 1.2rem;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,var(--terracotta-l),var(--terracotta));color:#fff;box-shadow:0 16px 32px -14px rgba(194,84,42,.7);}
+.success__check svg{width:38px;height:38px;}
+.success h3{font-size:1.8rem;margin-bottom:.5rem;}
+.success > p{color:var(--ink-soft);max-width:42ch;margin:0 auto 1.6rem;}
+.summary{text-align:left;background:var(--cream);border:1px dashed rgba(194,84,42,.4);border-radius:var(--radius);padding:1.2rem 1.4rem;max-width:480px;margin:0 auto 1.6rem;display:grid;gap:.55rem;}
+.summary div{display:flex;justify-content:space-between;gap:1rem;font-size:.92rem;border-bottom:1px dotted rgba(26,26,26,.12);padding-bottom:.5rem;}
+.summary div:last-child{border-bottom:none;padding-bottom:0;}
+.summary dt{color:var(--ink-soft);}
+.summary dd{margin:0;font-weight:600;text-align:right;}
+
+/* =========================================================
+   STOPKA
+   ========================================================= */
+.footer{background:var(--ink);color:#e8e0d2;position:relative;z-index:2;padding-block:clamp(56px,6vw,88px) 2rem;}
+.footer__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:clamp(28px,4vw,64px);}
+.footer .brand__script{color:var(--terracotta-l);}
+.footer .brand__word{color:#fff;}
+.footer__slogan{font-family:var(--ff-display);font-style:italic;font-size:1.35rem;margin-top:1rem;color:#fff;max-width:24ch;}
+.footer h4{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:#d8b39f;font-family:var(--ff-sans);font-weight:600;margin-bottom:1.1rem;}
+.footer ul{list-style:none;padding:0;margin:0;display:grid;gap:.7rem;}
+.footer a{color:#e8e0d2;display:inline-flex;align-items:center;gap:.6rem;transition:color .2s;}
+.footer a:hover{color:var(--terracotta-l);}
+.footer a svg{width:18px;height:18px;}
+.footer__bottom{margin-top:clamp(36px,4vw,56px);padding-top:1.6rem;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;justify-content:space-between;font-size:.82rem;color:#b7ac9b;}
+
+/* =========================================================
+   Reveal on scroll
+   ========================================================= */
+.js .reveal{opacity:0;transform:translateY(34px);transition:opacity .7s var(--ease), transform .7s var(--ease);}
+.js .reveal.is-visible{opacity:1;transform:none;}
+.js .stagger > *{opacity:0;transform:translateY(28px);transition:opacity .6s var(--ease), transform .6s var(--ease);}
+.js .stagger.is-visible > *{opacity:1;transform:none;}
+
+/* =========================================================
+   Responsywność
+   ========================================================= */
+@media (max-width:1140px){
+  .hero__content{grid-template-columns:1fr;text-align:center;gap:40px;}
+  .hero__text{align-items:center;}
+  .hero__eyebrow{justify-content:center;}
+  .hero__actions{justify-content:center;}
+  .hero__pizza-img{max-width:440px;}
+  .gallery__grid{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:1024px){
+  .offer__grid{grid-template-columns:repeat(2,1fr);}
+  .how__intro{grid-template-columns:1fr;}
+  .pizza-deco{max-width:420px;order:-1;}
+}
+@media (max-width:860px){
+  :root{--nav-h:64px;}
+  .nav__links{
+    position:fixed;inset:var(--nav-h) 0 auto 0;flex-direction:column;align-items:stretch;gap:.2rem;
+    background:rgba(247,241,227,.98);backdrop-filter:blur(14px);padding:1rem clamp(20px,5vw,40px) 1.4rem;
+    box-shadow:var(--shadow-md);transform:translateY(-130%);transition:transform .35s var(--ease);
+    border-bottom:1px solid rgba(26,26,26,.08);
+  }
+  .nav.is-open .nav__links{transform:translateY(0);}
+  .nav__links a{padding:.85rem 1rem;font-size:1rem;}
+  .nav__links a:not(.btn)::after{display:none;}
+  .nav__cta{margin:.5rem 0 0;text-align:center;}
+  .nav__toggle{display:inline-flex;}
+  .book__wrap{grid-template-columns:1fr;}
+}
+@media (max-width:680px){
+  .how__grid{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .footer__grid{grid-template-columns:1fr;}
+  .offer__grid{grid-template-columns:1fr;}
+  .gallery__grid{grid-template-columns:1fr;}
+  .occasion{min-height:300px;}
+  .occasion p{max-height:160px;opacity:1;margin-top:.4rem;}
+}
+@media (max-width:480px){
+  .hero__actions .btn{width:100%;}
+}
+
+/* =========================================================
+   Reduced motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+  .js .reveal,.js .stagger > *{opacity:1!important;transform:none!important;}
+  .hero__pizza-img{animation:none!important;}
+  .pizza-card__inner{transition:none!important;}
+}
+/* =========================================================
+   KALENDARZ DOSTĘPNOŚCI · RODO · STAN ŁADOWANIA (logika Supabase)
+   ========================================================= */
+.cal-label{display:block;font-size:.82rem;font-weight:600;letter-spacing:.04em;color:var(--ink);margin-bottom:.5rem;}
+.cal-label .req{color:var(--terracotta);}
+.cal{background:var(--cream);border:1.5px solid rgba(26,26,26,.14);border-radius:16px;padding:14px;}
+.field.invalid .cal{border-color:var(--terracotta-d);box-shadow:0 0 0 4px rgba(168,67,31,.12);}
+.cal__bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.cal__title{font-family:var(--ff-display);font-size:1.15rem;font-weight:600;text-transform:capitalize;}
+.cal__nav{width:42px;height:42px;border-radius:11px;border:1px solid rgba(26,26,26,.14);background:var(--cream-soft);color:var(--ink);display:grid;place-items:center;transition:background-color .2s var(--ease),color .2s,border-color .2s,transform .15s,opacity .2s;}
+.cal__nav:hover:not(:disabled){background:var(--terracotta);color:#fff;border-color:var(--terracotta);transform:translateY(-1px);}
+.cal__nav:disabled{opacity:.35;cursor:not-allowed;}
+.cal__nav svg{width:20px;height:20px;}
+.cal__dow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px;}
+.cal__dow span{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:.03em;color:var(--ink-soft);text-transform:uppercase;}
+.cal__grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.cal__pad{aspect-ratio:1;}
+.cal__day{aspect-ratio:1;min-height:38px;border:1px solid transparent;border-radius:11px;font-family:inherit;font-size:.95rem;font-weight:600;color:var(--ink);
+  display:grid;place-items:center;position:relative;cursor:pointer;background:var(--cream-soft);overflow:hidden;
+  transition:transform .15s var(--ease),box-shadow .2s var(--ease),background-color .2s;
+  animation:calDayIn .32s var(--ease) both;animation-delay:calc(var(--i,0)*8ms);}
+@keyframes calDayIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+.cal__day::after{content:"";position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;}
+.cal__day--free{background:#edf3e4;color:#3f5e25;}
+.cal__day--free::after{background:#5f8b3a;}
+.cal__day--small{background:#fbe7cf;color:#985812;}
+.cal__day--small::after{background:#e08a1e;}
+.cal__day--busy{background:#f1d8cd;color:#9a3a1a;cursor:not-allowed;}
+.cal__day--busy::after{background:var(--terracotta);}
+.cal__day--past{background:transparent;color:#c2b8a7;cursor:not-allowed;}
+.cal__day--past::after{display:none;}
+.cal__day--free:hover,.cal__day--small:hover{transform:translateY(-2px) scale(1.05);box-shadow:var(--shadow-sm);}
+.cal__day:disabled{pointer-events:none;}
+.cal__day.is-selected{background:var(--terracotta);color:#fff;box-shadow:0 6px 16px -6px rgba(194,84,42,.7);transform:scale(1.06);}
+.cal__day.is-selected::after{background:#fff;}
+.cal__legend{list-style:none;display:flex;flex-wrap:wrap;gap:.45rem 1.2rem;padding:0;margin:.9rem 0 0;font-size:.8rem;color:var(--ink-soft);}
+.cal__legend li{display:inline-flex;align-items:center;gap:.5em;}
+.cal__legend .dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;}
+.cal__legend .dot--free{background:#5f8b3a;}
+.cal__legend .dot--small{background:#e08a1e;}
+.cal__legend .dot--busy{background:var(--terracotta);}
+.cal__note{margin:.8rem 0 0;font-size:.82rem;font-weight:600;color:#985812;background:#fbe7cf;border:1px solid rgba(224,138,30,.35);border-radius:11px;padding:.6rem .85rem;}
+
+/* RODO */
+.form-card label.rodo{display:flex;align-items:flex-start;gap:.7rem;cursor:pointer;font-size:.86rem;font-weight:400;color:var(--ink-soft);line-height:1.5;letter-spacing:0;}
+.rodo input{position:absolute;width:1px;height:1px;opacity:0;}
+.rodo__box{flex:0 0 auto;width:24px;height:24px;border-radius:7px;border:1.6px solid rgba(26,26,26,.3);background:var(--cream);display:grid;place-items:center;color:#fff;margin-top:1px;transition:background-color .2s,border-color .2s,transform .15s;}
+.rodo__box svg{width:15px;height:15px;opacity:0;transform:scale(.5);transition:opacity .2s var(--ease),transform .2s var(--ease);}
+.rodo input:checked + .rodo__box{background:var(--terracotta);border-color:var(--terracotta);transform:scale(1.05);}
+.rodo input:checked + .rodo__box svg{opacity:1;transform:none;}
+.rodo input:focus-visible + .rodo__box{outline:3px solid var(--terracotta);outline-offset:2px;}
+.rodo__text .req{color:var(--terracotta);}
+.field.invalid .rodo__box{border-color:var(--terracotta-d);box-shadow:0 0 0 4px rgba(168,67,31,.12);}
+
+/* Spinner przycisku + błąd formularza */
+.btn.is-loading{cursor:progress;}
+.btn__spinner{width:1.1em;height:1.1em;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;display:none;animation:btnspin .7s linear infinite;}
+.btn.is-loading .btn__spinner{display:inline-block;}
+.btn.is-loading .btn__icon{display:none;}
+@keyframes btnspin{to{transform:rotate(360deg)}}
+.form-error{margin:1rem 0 0;padding:.85rem 1.1rem;border-radius:12px;background:#f1d8cd;color:#9a3a1a;font-size:.9rem;font-weight:600;border:1px solid rgba(194,84,42,.35);}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav" id="nav" aria-label="Główna nawigacja">
+  <div class="container nav__inner">
+    <a href="#hero" class="brand" aria-label="Sognare Pizza — strona główna">
+      <span class="brand__script">Sognare</span>
+      <span class="brand__word">Pizza</span>
+    </a>
+
+    <div class="nav__links" id="navLinks">
+      <a href="#o-nas">Jak to działa</a>
+      <a href="#oferta">Oferta</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#rezerwacja" class="btn nav__cta">Zarezerwuj datę</a>
+    </div>
+
+    <button class="nav__toggle" id="navToggle" aria-label="Otwórz menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===================== HERO (ZAKŁAD ROZCIĄGNIĘTY ASYMETRYCZNIE) ===================== -->
+<header class="hero" id="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <div class="hero__content container">
+    <div class="hero__text">
+      <span class="eyebrow hero__eyebrow">Mobilna pizzeria · Live cooking</span>
+
+      <span class="brand brand--hero" role="img" aria-label="Sognare Pizza">
+        <span class="brand__script">Sognare</span>
+        <span class="brand__word">Pizza</span>
+      </span>
+
+      <h1 class="hero__tagline">Pizza prosto z pieca — na oczach Twoich gości</h1>
+      <p class="hero__sub">Świeża pizza neapolitańska wypiekana na żywo na weselach, urodzinach i eventach. Włoski smak, zapach drewna i prawdziwe kulinarne show na wyciągnięcie ręki.</p>
+
+      <div class="hero__actions">
+        <a href="#rezerwacja" class="btn btn--lg">
+          Zarezerwuj datę
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#o-nas" class="btn btn--ghost btn--lg">Zobacz jak to działa</a>
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <!-- Zdjęcie dopasowane idealnie do Twojego wzoru (piękna neapolitańska pizza z góry) -->
+      <img class="hero__pizza-img" src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1000&q=85" alt="Prawdziwa pizza neapolitańska z przypieczonym brzegiem widok z góry" />
+    </div>
+  </div>
+</header>
+
+<!-- ===================== JAK TO DZIAŁA ===================== -->
+<section class="section how" id="o-nas">
+  <div class="container">
+    <div class="how__intro">
+      <div class="how__copy reveal">
+        <span class="eyebrow">O nas</span>
+        <h2 class="section-title">Prawdziwa <em>włoska</em> uczta, która przyjeżdża do Ciebie</h2>
+        <p>Sognare Pizza to mobilna pizzeria z prawdziwym piecem na drewno. Przyjeżdżamy na Twoje wydarzenie, rozkładamy się w kilkadziesiąt minut i zaczynamy kulinarne show — ciasto wyrabiane ręcznie, rozciągane na oczach gości i wypiekane w 90 sekund w temperaturze 430°C.</p>
+        <p>Świeże, sprowadzane z Włoch składniki i atmosfera, której nie zapewni żaden catering z tacy. To nie fast food — to rzemiosło.</p>
+        <div class="how__stats">
+          <div class="stat"><b>90s</b><span>czas wypieku</span></div>
+          <div class="stat"><b>430°C</b><span>piec na drewno</span></div>
+          <div class="stat"><b>100%</b><span>na żywo</span></div>
+        </div>
+      </div>
+
+      <div class="pizza-deco reveal" aria-hidden="true">
+        <div class="pizza-deco__plate"></div>
+        <div class="pizza-deco__spin">
+          <div class="pizza-disc">
+            <span class="topping pepperoni" style="top:20%;left:24%"></span>
+            <span class="topping pepperoni" style="top:60%;left:64%"></span>
+            <span class="topping pepperoni" style="top:30%;left:62%"></span>
+            <span class="topping basil" style="top:58%;left:28%"></span>
+            <span class="topping basil" style="top:40%;left:46%"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="how__grid stagger">
+      <article class="feature">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a8 8 0 0116 0v2H4z"/><path d="M3 13h18v3a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M8 11c0-2 1-3 1-3M12 11c0-2 1-3 1-3M16 11c0-2 1-3 1-3"/></svg>
+        </div>
+        <p class="feature__num">01</p>
+        <h3>Piec na miejscu</h3>
+        <p>Przywozimy autentyczny piec opalany drewnem. Zapach żaru i widok ognia budują atmosferę jeszcze zanim spróbujesz pierwszego kęsa.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 010 18M8 9.5l.01 0M14 8l.01 0M15 13l.01 0M10 14l.01 0"/></svg>
+        </div>
+        <p class="feature__num">02</p>
+        <h3>Pizza na żywo</h3>
+        <p>Nasz pizzaiolo wyrabia i wypieka każdą pizzę na oczach gości. Live cooking, który staje się główną atrakcją wieczoru.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.5 2 1.5 4 0 6-1.5-2-1.5-4 0-6z"/><path d="M5 11c4 0 7 3 7 9-6 0-9-3-9-7a2 2 0 012-2z"/><path d="M19 11c-4 0-7 3-7 9 6 0 9-3 9-7a2 2 0 00-2-2z"/></svg>
+        </div>
+        <p class="feature__num">03</p>
+        <h3>Włoskie składniki</h3>
+        <p>Mąka typu 00, mozzarella fior di latte, pomidory San Marzano i świeża bazylia. Smak, który przenosi prosto do Neapolu.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OFERTA / OKAZJE ===================== -->
+<section class="section" id="oferta">
+  <div class="container container--wide">
+    <div class="section-head center reveal">
+      <span class="eyebrow" style="justify-content:center">Oferta</span>
+      <h2 class="section-title">Na każdą <em>wyjątkową</em> okazję</h2>
+      <p class="section-sub">Dopasujemy menu, liczbę pizz i czas pracy do charakteru Twojego wydarzenia — od kameralnych przyjęć po duże eventy firmowe.</p>
+    </div>
+
+    <div class="offer__grid stagger">
+      <article class="occasion">
+        <img class="occasion__bg" src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=72" alt="Goście weselni wznoszący toast" loading="lazy" />
+        <span class="occasion__tag">Najczęściej wybierane</span>
+        <h3>Wesela</h3>
+        <p>Niezapomniana atrakcja wieczoru — gorąca pizza dla gości o każdej porze, także jako pyszna alternatywa dla tradycyjnego ciepłego posiłku.</p>
+      </article>
+
+      <article class="occasion">
+        <img class="occasion__bg" src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=900&q=72" alt="Grupa przyjaciół świętująca razem" loading="lazy" />
+        <span class="occasion__tag">Rodzinnie</span>
+        <h3>Urodziny</h3>
+        <p>Świętuj w wyjątkowym stylu. Dzieci i dorośli uwielbiają patrzeć, jak ich pizza powstaje od ciasta do pierwszego kęsa.</p>
+      </article>
+
+      <article class="occasion">
+        <img class="occasion__bg" src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=72" alt="Zespół na spotkaniu firmowym" loading="lazy" />
+        <span class="occasion__tag">Biznes</span>
+        <h3>Eventy firmowe</h3>
+        <p>Integracje, premiery, pikniki firmowe. Live cooking, który robi wrażenie na klientach i buduje świetną atmosferę w zespole.</p>
+      </article>
+
+      <article class="occasion">
+        <img class="occasion__bg" src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=900&q=72" alt="Przyjęcie w ogrodzie przy wspólnym stole" loading="lazy" />
+        <span class="occasion__tag">Kameralnie</span>
+        <h3>Przyjęcia</h3>
+        <p>Komunie, chrzciny, spotkania w ogrodzie. Wniesiemy do Twojego przyjęcia odrobinę włoskiego ciepła i prawdziwego smaku.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GALERIA — INTERAKTYWNY OBRÓT KART (FLIP ANIMATION) ===================== -->
+<section class="section" id="galeria" style="background:linear-gradient(180deg,var(--cream),var(--cream-deep))">
+  <div class="container container--wide">
+    <div class="section-head center reveal">
+      <span class="eyebrow" style="justify-content:center">Galeria Menu</span>
+      <h2 class="section-title">Prosto z <em>pieca</em></h2>
+      <p class="section-sub">Spójne, profesjonalne ujęcia rzemieślniczej pizzy neapolitańskiej z góry. Kliknij na dowolny rodzaj, aby sprawdzić detale i składniki w trójwymiarowej animacji.</p>
+    </div>
+
+    <div class="gallery__grid stagger" id="gallery">
+      
+      <!-- Pizza 1: Margherita -->
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Margherita">
+        <div class="pizza-card__inner">
+          <div class="pizza-card__front">
+            <span class="pizza-card__hint-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </span>
+            <img src="https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?auto=format&fit=crop&w=760&q=78" alt="Pizza Margherita z góry" loading="lazy" />
+            <span class="shot__cap"><span>Classica</span><b>Margherita</b></span>
+          </div>
+          <div class="pizza-card__back">
+            <h3>Margherita</h3>
+            <span class="kind">Pizza klasyczna</span>
+            <p>Pomidory San Marzano, oryginalna włoska mozzarella fior di latte, liście świeżej bazylii oraz aromatyczna oliwa extra vergine. Absolutna esencja neapolitańskiego tradycjonalizmu.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> Najchętniej wybierana</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- Pizza 2: Diavola -->
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Diavola">
+        <div class="pizza-card__inner">
+          <div class="pizza-card__front">
+            <span class="pizza-card__hint-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </span>
+            <img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=760&q=78" alt="Pizza Diavola z góry" loading="lazy" />
+            <span class="shot__cap"><span>Pikantna</span><b>Diavola</b></span>
+          </div>
+          <div class="pizza-card__back">
+            <h3>Diavola</h3>
+            <span class="kind">Pizza pikantna</span>
+            <p>Słodki sos z pomidorów San Marzano, aksamitna fior di latte oraz wyraziste, pikantne włoskie salami spianata piccante, które uwalnia głęboki smak w wysokiej temperaturze pieca.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Ognisty charakter</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- Pizza 3: Napoletana Premium -->
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Napoletana">
+        <div class="pizza-card__inner">
+          <div class="pizza-card__front">
+            <span class="pizza-card__hint-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </span>
+            <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=760&q=78" alt="Autentyczna pizza neapolitańska z góry" loading="lazy" />
+            <span class="shot__cap"><span>Tradycja</span><b>Napoletana</b></span>
+          </div>
+          <div class="pizza-card__back">
+            <h3>Napoletana</h3>
+            <span class="kind">Klasyka gatunku</span>
+            <p>Wzorcowy przykład rzemiosła. Cienkie, puszyste ciasto z widocznym, lekko przypieczonym brzegiem (leopardowaniem), sosem pomidorowym, czosnkiem, oregano i oliwą.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg> Wypiek w 90 sekund</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- Pizza 4: Bianca -->
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Bianca">
+        <div class="pizza-card__inner">
+          <div class="pizza-card__front">
+            <span class="pizza-card__hint-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </span>
+            <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?auto=format&fit=crop&w=760&q=78" alt="Pizza Bianca z góry" loading="lazy" />
+            <span class="shot__cap"><span>Bez sosu</span><b>Bianca</b></span>
+          </div>
+          <div class="pizza-card__back">
+            <h3>Bianca</h3>
+            <span class="kind">Biała pizza</span>
+            <p>Kompozycja bez tradycyjnego sosu pomidorowego. Kremowa baza z sera ricotta, obfita porcja mozzarelli fior di latte, delikatna oliwa czosnkowa oraz świeże gałązki rozmarynu.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></svg> Subtelna i kremowa</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- Pizza 5: Quattro Stagioni -->
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Quattro Stagioni">
+        <div class="pizza-card__inner">
+          <div class="pizza-card__front">
+            <span class="pizza-card__hint-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </span>
+            <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=760&q=78" alt="Pizza z dodatkami z góry" loading="lazy" />
+            <span class="shot__cap"><span>Bogata</span><b>Quattro Stagioni</b></span>
+          </div>
+          <div class="pizza-card__back">
+            <h3>Quattro Stagioni</h3>
+            <span class="kind">Cztery pory roku</span>
+            <p>Tradycyjne ułożenie sekcyjne: soczysta włoska szynka cotto, świeże pieczarki, delikatne serca karczochów oraz czarne, wyraziste oliwki na podkładzie z sosu pomidorowego i sera.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg> Zbalansowana tradycja</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- Pizza 6: Prosciutto e Rucola -->
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Prosciutto">
+        <div class="pizza-card__inner">
+          <div class="pizza-card__front">
+            <span class="pizza-card__hint-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </span>
+            <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=760&q=78" alt="Pizza z szynką dojrzewającą z góry" loading="lazy" />
+            <span class="shot__cap"><span>Premium</span><b>Prosciutto</b></span>
+          </div>
+          <div class="pizza-card__back">
+            <h3>Prosciutto</h3>
+            <span class="kind">Kompozycja premium</span>
+            <p>Dojrzewająca szynka prosciutto crudo, świeże liście pikantnej rukoli oraz płatki parmezanu. Wszystkie te składniki nakładamy na pizzę natychmiast po wyjęciu z pieca.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Składniki po wypieku</span>
+          </div>
+        </div>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REZERWACJA ===================== -->
+<section class="section book" id="rezerwacja">
+  <div class="container book__wrap">
+    <aside class="book__aside reveal">
+      <span class="eyebrow">Rezerwacja</span>
+      <h2 class="section-title">Zarezerwuj <em>datę</em> swojego wydarzenia</h2>
+      <p>Wypełnij formularz, a skontaktujemy się z Tobą w ciągu 24 godzin z indywidualną wyceną i szczegółami. Im wcześniej, tym lepiej — popularne terminy znikają szybko.</p>
+
+      <ul class="book__contactlist">
+        <li>
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg></span>
+          <div>+48 600 000 000<small>Pon–Sob, 9:00–19:00</small></div>
+        </li>
+        <li>
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span>
+          <div>kontakt@sognarepizza.pl<small>Odpisujemy w 24h</small></div>
+        </li>
+        <li>
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <div>Cała Polska<small>Dojeżdżamy na eventy</small></div>
+        </li>
+      </ul>
+    </aside>
+
+    <div class="reveal">
+      <form class="form-card" id="bookingForm" novalidate>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="name">Imię i nazwisko <span class="req" aria-hidden="true">*</span></label>
+            <input class="control" type="text" id="name" name="name" autocomplete="name" required placeholder="np. Anna Kowalska" />
+            <span class="error" data-error-for="name" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label for="phone">Telefon <span class="req" aria-hidden="true">*</span></label>
+            <input class="control" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required placeholder="+48 600 000 000" />
+            <span class="error" data-error-for="phone" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label for="email">E-mail <span class="hint">(opcjonalnie)</span></label>
+            <input class="control" type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="anna@example.com" />
+            <span class="error" data-error-for="email" role="alert"></span>
+          </div>
+
+          <!-- KALENDARZ DOSTĘPNOŚCI (zastępuje natywny date picker, by kolorować dni) -->
+          <div class="field full" id="dateField">
+            <span class="cal-label" id="dateLabel">Data wydarzenia <span class="req" aria-hidden="true">*</span></span>
+            <input type="hidden" id="date" name="date" required />
+            <div class="cal" role="group" aria-labelledby="dateLabel">
+              <div class="cal__bar">
+                <button type="button" class="cal__nav" id="calPrev" aria-label="Poprzedni miesiąc">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <div class="cal__title" id="calTitle" aria-live="polite">—</div>
+                <button type="button" class="cal__nav" id="calNext" aria-label="Następny miesiąc">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+              </div>
+              <div class="cal__dow" aria-hidden="true"><span>Pn</span><span>Wt</span><span>Śr</span><span>Cz</span><span>Pt</span><span>So</span><span>Nd</span></div>
+              <div class="cal__grid" id="calGrid"></div>
+            </div>
+            <ul class="cal__legend" aria-label="Legenda dostępności terminów">
+              <li><span class="dot dot--free"></span> Wolny termin</li>
+              <li><span class="dot dot--small"></span> Mniejsza impreza</li>
+              <li><span class="dot dot--busy"></span> Termin zajęty</li>
+            </ul>
+            <p class="cal__note" id="calNote" role="status" aria-live="polite" hidden></p>
+            <span class="error" data-error-for="date" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label for="type">Typ wydarzenia <span class="req" aria-hidden="true">*</span></label>
+            <select class="control" id="type" name="type" required>
+              <option value="" disabled selected>Wybierz…</option>
+              <option value="wesele">Wesele</option>
+              <option value="urodziny">Urodziny</option>
+              <option value="event-firmowy">Event firmowy</option>
+              <option value="inne">Inne</option>
+            </select>
+            <span class="error" data-error-for="type" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label for="guests">Szacowana liczba gości <span class="req" aria-hidden="true">*</span></label>
+            <input class="control" type="number" id="guests" name="guests" min="1" max="2000" inputmode="numeric" required placeholder="np. 80" />
+            <span class="error" data-error-for="guests" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label for="location">Lokalizacja <span class="hint">(opcjonalnie)</span></label>
+            <input class="control" type="text" id="location" name="location" autocomplete="address-level2" placeholder="Miasto / adres sali" />
+            <span class="error" data-error-for="location" role="alert"></span>
+          </div>
+
+          <div class="field full">
+            <label for="message">Wiadomość <span class="hint">(opcjonalnie)</span></label>
+            <textarea class="control" id="message" name="message" placeholder="Opowiedz o swoim wydarzeniu, preferencjach, godzinach…"></textarea>
+          </div>
+
+          <div class="field full">
+            <label class="rodo">
+              <input type="checkbox" id="rodo" name="rodo" required />
+              <span class="rodo__box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="rodo__text">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu obsługi zapytania o rezerwację. <span class="req" aria-hidden="true">*</span></span>
+            </label>
+            <span class="error" data-error-for="rodo" role="alert"></span>
+          </div>
+        </div>
+
+        <div class="form-foot">
+          <p class="note">Wysyłając formularz zgadzasz się na kontakt w sprawie rezerwacji. Pola oznaczone * są wymagane.</p>
+          <button type="submit" class="btn btn--lg" id="submitBtn">
+            <span class="btn__label">Wyślij zapytanie</span>
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+            <span class="btn__spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+        <p class="form-error" id="formError" role="alert" hidden></p>
+      </form>
+
+      <div class="form-card success" id="success" role="status" aria-live="polite" tabindex="-1">
+        <div class="success__check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h3>Dziękujemy! Skontaktujemy się w ciągu 24h</h3>
+        <p>Twoje zapytanie trafiło do nas. Oto podsumowanie Twojej rezerwacji:</p>
+        <dl class="summary" id="summary"></dl>
+        <button type="button" class="btn btn--ghost" id="resetBtn">Wyślij kolejne zapytanie</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STOPKA ===================== -->
+<footer class="footer" id="kontakt">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <span class="brand" aria-label="Sognare Pizza">
+          <span class="brand__script" style="font-size:2.4rem">Sognare</span>
+          <span class="brand__word">Pizza</span>
+        </span>
+        <p class="footer__slogan">„Marzenie o Włoszech — wypiekane na żywo."</p>
+      </div>
+
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+48600000000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>+48 600 000 000</a></li>
+          <li><a href="mailto:kontakt@sognarepizza.pl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>kontakt@sognarepizza.pl</a></li>
+          <li><a href="#rezerwacja">Formularz rezerwacji</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Obserwuj nas</h4>
+        <ul>
+          <li><a href="https://instagram.com/sognare_pizza" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@sognare_pizza</a></li>
+          <li><a href="#oferta">Oferta na eventy</a></li>
+          <li><a href="#galeria">Galeria</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="year"></span> Sognare Pizza · Mobilna pizzeria neapolitańska</span>
+      <span>Pizza prosto z pieca — na oczach Twoich gości.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ====================================================================
+     SUPABASE — KONFIGURACJA (podmień wartości; URL musi kończyć się /rest/v1/)
+     ==================================================================== */
+  var SUPABASE_URL = "https://uuniazhlmsaptqtbstus.supabase.co/rest/v1/";
+  var SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1bmlhemhsbXNhcHRxdGJzdHVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNTg1NTAsImV4cCI6MjA5NzYzNDU1MH0.oBpXA1izZZeaNaLaMmtIjXFHrPqKI5Hx_aVcFe7G53k";
+  // skleja bazę z zasobem bez podwójnych ukośników
+  function sbUrl(path){ return SUPABASE_URL.replace(/\/+$/,'') + '/' + String(path).replace(/^\/+/,''); }
+  function sbHeaders(extra){
+    var h = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' };
+    if(extra){ for(var k in extra){ h[k] = extra[k]; } }
+    return h;
+  }
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------- nav: stan po scrollu ---------- */
+  var nav = document.getElementById('nav');
+  var onScroll = function(){ nav.classList.toggle('is-scrolled', window.scrollY > 24); };
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ---------- nav: menu mobilne ---------- */
+  var toggle = document.getElementById('navToggle');
+  var navLinks = document.getElementById('navLinks');
+  var closeMenu = function(){ nav.classList.remove('is-open'); toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','Otwórz menu'); };
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+  });
+  navLinks.addEventListener('click', function(e){ if(e.target.closest('a')) closeMenu(); });
+
+  /* ---------- reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal, .stagger');
+  if('IntersectionObserver' in window && !prefersReduced){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          var el = entry.target;
+          if(el.classList.contains('stagger')){
+            Array.prototype.forEach.call(el.children, function(child, i){
+              child.style.transitionDelay = (i * 0.09) + 's';
+            });
+          }
+          el.classList.add('is-visible');
+          io.unobserve(el);
+        }
+      });
+    }, {threshold:0.14, rootMargin:'0px 0px -8% 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------- INTERAKTYWNA GALERIA: Obracanie kart 3D na kliknięcie ---------- */
+  var gallery = document.getElementById('gallery');
+  gallery.addEventListener('click', function(e) {
+    var card = e.target.closest('.pizza-card');
+    if (card) {
+      card.classList.toggle('is-flipped');
+    }
+  });
+
+  /* ====================================================================
+     FORMULARZ + KALENDARZ DOSTĘPNOŚCI (Supabase)
+     ==================================================================== */
+  var form = document.getElementById('bookingForm');
+  var success = document.getElementById('success');
+  var summary = document.getElementById('summary');
+  var dateInput = document.getElementById('date');      // ukryty input z wartością YYYY-MM-DD
+  var submitBtn = document.getElementById('submitBtn');
+  var formError = document.getElementById('formError');
+
+  var typeLabels = { 'wesele':'Wesele', 'urodziny':'Urodziny', 'event-firmowy':'Event firmowy', 'inne':'Inne' };
+
+  /* --- daty lokalnie w formacie YYYY-MM-DD (bez przesunięć stref czasowych) --- */
+  function ymd(y, m, d){ return y + '-' + String(m).padStart(2,'0') + '-' + String(d).padStart(2,'0'); }
+  var _now = new Date();
+  var todayStr = ymd(_now.getFullYear(), _now.getMonth()+1, _now.getDate());
+
+  /* --- stan kalendarza --- */
+  var availability = {};                       // 'YYYY-MM-DD' -> 'czerwony' | 'pomaranczowy'
+  var viewYear = _now.getFullYear();
+  var viewMonth = _now.getMonth();             // 0-11
+  var MONTHS = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+
+  var calGrid = document.getElementById('calGrid');
+  var calTitle = document.getElementById('calTitle');
+  var calPrev = document.getElementById('calPrev');
+  var calNext = document.getElementById('calNext');
+  var calNote = document.getElementById('calNote');
+
+  /* --- ZADANIE 1: pobranie zajętych dat (RPC dostepnosc_dat) --- */
+  async function fetchAvailability(){
+    try{
+      var res = await fetch(sbUrl('rpc/dostepnosc_dat'), {
+        method: 'POST', headers: sbHeaders(), body: JSON.stringify({})
+      });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      var data = await res.json();
+      var map = {};
+      (Array.isArray(data) ? data : []).forEach(function(row){
+        if(row && row.data_wydarzenia){ map[row.data_wydarzenia] = row.kolor; }
+      });
+      availability = map;
+    }catch(err){
+      // brak danych dostępności nie blokuje strony — dni bez wpisu = wolne
+      console.warn('Nie udało się pobrać dostępności terminów:', err);
+    }
+    renderCalendar();
+  }
+
+  function dayStatus(dateStr){
+    if(dateStr < todayStr) return 'past';            // data przeszła -> zablokowana
+    var c = availability[dateStr];
+    if(c === 'czerwony') return 'busy';              // impreza 60+ -> niedostępny
+    if(c === 'pomaranczowy') return 'small';         // mniejsza impreza -> można wybrać
+    return 'free';                                    // wolny (domyślnie)
+  }
+
+  function renderCalendar(){
+    if(!calGrid) return;
+    calTitle.textContent = MONTHS[viewMonth] + ' ' + viewYear;
+    calPrev.disabled = (viewYear === _now.getFullYear() && viewMonth === _now.getMonth());
+
+    calGrid.innerHTML = '';
+    var firstDow = (new Date(viewYear, viewMonth, 1).getDay() + 6) % 7;   // 0 = poniedziałek
+    var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+    var selected = dateInput.value;
+    var statusLabel = { past:'termin miniony', busy:'termin zajęty', small:'mniejsza impreza – skontaktuj się', free:'termin wolny' };
+
+    for(var p=0; p<firstDow; p++){
+      var pad = document.createElement('span'); pad.className = 'cal__pad'; calGrid.appendChild(pad);
+    }
+    for(var day=1; day<=daysInMonth; day++){
+      var ds = ymd(viewYear, viewMonth+1, day);
+      var st = dayStatus(ds);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cal__day cal__day--' + st;
+      btn.textContent = day;
+      btn.style.setProperty('--i', day);
+      btn.setAttribute('aria-label', day + ' ' + MONTHS[viewMonth].toLowerCase() + ' ' + viewYear + ', ' + statusLabel[st]);
+      if(st === 'past' || st === 'busy'){
+        btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
+      } else {
+        btn.dataset.date = ds;
+        if(ds === selected){ btn.classList.add('is-selected'); btn.setAttribute('aria-pressed','true'); }
+      }
+      calGrid.appendChild(btn);
+    }
+  }
+
+  /* --- wybór dnia --- */
+  calGrid.addEventListener('click', function(e){
+    var btn = e.target.closest('.cal__day');
+    if(!btn || btn.disabled || !btn.dataset.date) return;
+    dateInput.value = btn.dataset.date;
+    renderCalendar();
+    var f = document.getElementById('dateField');
+    f.classList.remove('invalid');
+    var slot = form.querySelector('[data-error-for="date"]'); if(slot) slot.innerHTML = '';
+    if(availability[btn.dataset.date] === 'pomaranczowy'){
+      calNote.hidden = false;
+      calNote.textContent = 'Tego dnia jest już mniejsza impreza – skontaktuj się.';
+    } else {
+      calNote.hidden = true; calNote.textContent = '';
+    }
+  });
+  calPrev.addEventListener('click', function(){ if(calPrev.disabled) return; viewMonth--; if(viewMonth<0){ viewMonth=11; viewYear--; } renderCalendar(); });
+  calNext.addEventListener('click', function(){ viewMonth++; if(viewMonth>11){ viewMonth=0; viewYear++; } renderCalendar(); });
+
+  /* --- walidacja --- */
+  function fieldOf(input){ return input.closest('.field'); }
+  function errorSlot(name){ return form.querySelector('[data-error-for="'+name+'"]'); }
+  var errIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>';
+
+  function setError(input, msg){
+    var f = fieldOf(input), slot = errorSlot(input.name);
+    if(!f) return;
+    if(msg){
+      f.classList.add('invalid');
+      input.setAttribute('aria-invalid','true');
+      if(slot) slot.innerHTML = errIcon + '<span>'+msg+'</span>';
+    } else {
+      f.classList.remove('invalid');
+      input.removeAttribute('aria-invalid');
+      if(slot) slot.innerHTML = '';
+    }
+  }
+
+  var REQUIRED = ['name','phone','date','type','guests'];   // e-mail i lokalizacja opcjonalne
+  function validateField(input){
+    var v = (input.value || '').trim();
+    var name = input.name;
+    if(name === 'rodo'){
+      if(!input.checked){ setError(input,'Zgoda jest wymagana.'); return false; }
+      setError(input,''); return true;
+    }
+    if(REQUIRED.indexOf(name) !== -1 && !v){ setError(input,'To pole jest wymagane.'); return false; }
+    if(name === 'email' && v){
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){ setError(input,'Podaj poprawny adres e-mail.'); return false; }
+    }
+    if(name === 'phone' && v){
+      if(v.replace(/[^0-9]/g,'').length < 9){ setError(input,'Podaj poprawny numer telefonu.'); return false; }
+    }
+    if(name === 'guests' && v){
+      var n = parseInt(v,10);
+      if(isNaN(n) || n < 1){ setError(input,'Podaj liczbę gości (min. 1).'); return false; }
+    }
+    if(name === 'date' && v){
+      if(v < todayStr){ setError(input,'Wybierz datę w przyszłości.'); return false; }
+    }
+    setError(input,'');
+    return true;
+  }
+
+  Array.prototype.forEach.call(form.elements, function(el){
+    if(!el.name) return;
+    el.addEventListener('blur', function(){ if(el.type !== 'hidden') validateField(el); });
+    el.addEventListener('input', function(){ var f = fieldOf(el); if(f && f.classList.contains('invalid')) validateField(el); });
+    el.addEventListener('change', function(){ if(el.tagName === 'SELECT' || el.type === 'checkbox') validateField(el); });
+  });
+
+  /* --- ZADANIE 2: stan ładowania + zapis rezerwacji --- */
+  function setLoading(on){
+    submitBtn.disabled = on;
+    submitBtn.classList.toggle('is-loading', on);
+    var label = submitBtn.querySelector('.btn__label');
+    if(label) label.textContent = on ? 'Wysyłanie…' : 'Wyślij zapytanie';
+  }
+  function showFormError(msg){
+    if(!formError) return;
+    formError.hidden = false;
+    formError.textContent = msg;
+    formError.scrollIntoView({behavior: prefersReduced ? 'auto' : 'smooth', block:'center'});
+  }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(formError){ formError.hidden = true; formError.textContent = ''; }
+
+    var firstInvalid = null;
+    ['name','phone','date','type','guests','email','rodo'].forEach(function(n){
+      var input = form.elements[n];
+      if(!input) return;
+      if(!validateField(input) && !firstInvalid) firstInvalid = input;
+    });
+    if(firstInvalid){
+      var target = (firstInvalid.type === 'hidden') ? document.getElementById('dateField') : firstInvalid;
+      try{ firstInvalid.focus(); }catch(_){}
+      if(target) target.scrollIntoView({behavior: prefersReduced ? 'auto' : 'smooth', block:'center'});
+      return;
+    }
+
+    var payload = {
+      imie_nazwisko: form.elements.name.value.trim(),
+      telefon: form.elements.phone.value.trim(),
+      email: form.elements.email.value.trim(),
+      data_wydarzenia: form.elements.date.value,
+      typ_wydarzenia: form.elements.type.value,
+      liczba_gosci: parseInt(form.elements.guests.value, 10),
+      lokalizacja: form.elements.location.value.trim(),
+      wiadomosc: form.elements.message.value.trim()
+    };
+
+    setLoading(true);
+    try{
+      var res = await fetch(sbUrl('rezerwacje'), {
+        method: 'POST',
+        headers: sbHeaders({ 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok){
+        var txt = ''; try{ txt = await res.text(); }catch(_){}
+        throw new Error('HTTP ' + res.status + (txt ? (' – ' + txt) : ''));
+      }
+
+      // podsumowanie
+      var dObj = new Date(payload.data_wydarzenia + 'T00:00:00');
+      var dateStr = dObj.toLocaleDateString('pl-PL', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+      var rows = [
+        ['Imię i nazwisko', payload.imie_nazwisko],
+        ['Data wydarzenia', dateStr],
+        ['Typ wydarzenia', typeLabels[payload.typ_wydarzenia] || payload.typ_wydarzenia],
+        ['Liczba gości', payload.liczba_gosci + ' os.'],
+        ['Telefon', payload.telefon]
+      ];
+      if(payload.lokalizacja) rows.push(['Lokalizacja', payload.lokalizacja]);
+      summary.innerHTML = rows.map(function(r){ return '<div><dt>'+r[0]+'</dt><dd>'+r[1]+'</dd></div>'; }).join('');
+
+      form.style.display = 'none';
+      success.classList.add('show');
+      success.focus();
+      success.scrollIntoView({behavior: prefersReduced ? 'auto' : 'smooth', block:'center'});
+
+      // wyczyść formularz i odśwież kolory kalendarza (ponów RPC)
+      form.reset();
+      dateInput.value = '';
+      if(calNote){ calNote.hidden = true; calNote.textContent = ''; }
+      Array.prototype.forEach.call(form.querySelectorAll('.field'), function(f){ f.classList.remove('invalid'); });
+      Array.prototype.forEach.call(form.querySelectorAll('.error'), function(s){ s.innerHTML = ''; });
+      fetchAvailability();
+    }catch(err){
+      console.error('Błąd zapisu rezerwacji:', err);
+      showFormError('Nie udało się wysłać rezerwacji. Sprawdź połączenie z internetem i spróbuj ponownie.');
+    }finally{
+      setLoading(false);
+    }
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    success.classList.remove('show');
+    form.style.display = '';
+    if(formError){ formError.hidden = true; formError.textContent = ''; }
+    renderCalendar();
+    form.scrollIntoView({behavior: prefersReduced ? 'auto' : 'smooth', block:'center'});
+    form.elements.name.focus();
+  });
+
+  /* --- inicjalizacja kalendarza i dostępności --- */
+  renderCalendar();
+  fetchAvailability();
+})();
+</script>
+</body>
+</html>
