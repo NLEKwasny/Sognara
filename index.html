@@ -621,6 +621,15 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
 .btn.is-loading .btn__icon{display:none;}
 @keyframes btnspin{to{transform:rotate(360deg)}}
 .form-error{margin:1rem 0 0;padding:.85rem 1.1rem;border-radius:12px;background:#f1d8cd;color:#9a3a1a;font-size:.9rem;font-weight:600;border:1px solid rgba(194,84,42,.35);}
+
+/* Część A — zdjęcie w karcie „Włoskie składniki" (ten sam promień/cień, object-fit:contain) */
+.feature__img{width:100%;height:160px;object-fit:contain;border-radius:18px;box-shadow:var(--shadow-md);background:var(--cream-deep);margin:0 auto 1.3rem;display:block;}
+
+/* Część C — animowane pole „inna miejscowość", notka, zablokowany przycisk */
+.cityother{overflow:hidden;max-height:0;opacity:0;transition:max-height .4s var(--ease),opacity .3s var(--ease);}
+.cityother.is-open{max-height:260px;opacity:1;}
+.field-note{display:block;font-size:.75rem;color:#8a8073;font-style:italic;margin-top:.2rem;}
+.btn:disabled:not(.is-loading),.btn:disabled:not(.is-loading):hover{background:#cdbcad;border-color:#cdbcad;color:#fff;box-shadow:none;transform:none;cursor:not-allowed;opacity:.9;}
 </style>
 </head>
 <body>
@@ -728,9 +737,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
       </article>
 
       <article class="feature">
-        <div class="feature__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.5 2 1.5 4 0 6-1.5-2-1.5-4 0-6z"/><path d="M5 11c4 0 7 3 7 9-6 0-9-3-9-7a2 2 0 012-2z"/><path d="M19 11c-4 0-7 3-7 9 6 0 9-3 9-7a2 2 0 00-2-2z"/></svg>
-        </div>
+        <img class="feature__img" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80" alt="Pizza Sognare prosto z pieca" loading="lazy" />
         <p class="feature__num">03</p>
         <h3>Włoskie składniki</h3>
         <p>Mąka typu 00, mozzarella fior di latte, pomidory San Marzano i świeża bazylia. Smak, który przenosi prosto do Neapolu.</p>
@@ -804,7 +811,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
           <div class="pizza-card__back">
             <h3>Margherita</h3>
             <span class="kind">Pizza klasyczna</span>
-            <p>Pomidory San Marzano, oryginalna włoska mozzarella fior di latte, liście świeżej bazylii oraz aromatyczna oliwa extra vergine. Absolutna esencja neapolitańskiego tradycjonalizmu.</p>
+            <p>Sos pomidorowy z San Marzano, mozzarella fior di latte i świeża bazylia. Klasyczna, czysta kompozycja prosto z Neapolu.</p>
             <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> Najchętniej wybierana</span>
           </div>
         </div>
@@ -823,84 +830,84 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
           <div class="pizza-card__back">
             <h3>Diavola</h3>
             <span class="kind">Pizza pikantna</span>
-            <p>Słodki sos z pomidorów San Marzano, aksamitna fior di latte oraz wyraziste, pikantne włoskie salami spianata piccante, które uwalnia głęboki smak w wysokiej temperaturze pieca.</p>
+            <p>Sos pomidorowy, mozzarella, plastry pikantnego salami pepperoni i kropelki pikantnej oliwy chili.</p>
             <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Ognisty charakter</span>
           </div>
         </div>
       </button>
 
       <!-- Pizza 3: Napoletana Premium -->
-      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Napoletana">
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Funghi">
         <div class="pizza-card__inner">
           <div class="pizza-card__front">
             <span class="pizza-card__hint-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             </span>
             <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=760&q=78" alt="Autentyczna pizza neapolitańska z góry" loading="lazy" />
-            <span class="shot__cap"><span>Tradycja</span><b>Napoletana</b></span>
+            <span class="shot__cap"><span>Z grzybami</span><b>Funghi</b></span>
           </div>
           <div class="pizza-card__back">
-            <h3>Napoletana</h3>
-            <span class="kind">Klasyka gatunku</span>
-            <p>Wzorcowy przykład rzemiosła. Cienkie, puszyste ciasto z widocznym, lekko przypieczonym brzegiem (leopardowaniem), sosem pomidorowym, czosnkiem, oregano i oliwą.</p>
-            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg> Wypiek w 90 sekund</span>
+            <h3>Funghi</h3>
+            <span class="kind">Pizza grzybowa</span>
+            <p>Sos pomidorowy, mozzarella, plastry pieczarek i borowików oraz świeży tymianek. Leśny, ziemisty aromat.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg> Leśny aromat</span>
           </div>
         </div>
       </button>
 
       <!-- Pizza 4: Bianca -->
-      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Bianca">
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Prosciutto e Rucola">
         <div class="pizza-card__inner">
           <div class="pizza-card__front">
             <span class="pizza-card__hint-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             </span>
             <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?auto=format&fit=crop&w=760&q=78" alt="Pizza Bianca z góry" loading="lazy" />
-            <span class="shot__cap"><span>Bez sosu</span><b>Bianca</b></span>
+            <span class="shot__cap"><span>Premium</span><b>Prosciutto e Rucola</b></span>
           </div>
           <div class="pizza-card__back">
-            <h3>Bianca</h3>
-            <span class="kind">Biała pizza</span>
-            <p>Kompozycja bez tradycyjnego sosu pomidorowego. Kremowa baza z sera ricotta, obfita porcja mozzarelli fior di latte, delikatna oliwa czosnkowa oraz świeże gałązki rozmarynu.</p>
-            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></svg> Subtelna i kremowa</span>
+            <h3>Prosciutto e Rucola</h3>
+            <span class="kind">Kompozycja premium</span>
+            <p>Mozzarella, plastry szynki parmeńskiej dodane po upieczeniu, świeża rukola i wiórki parmezanu.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></svg> Dodawane po wypieku</span>
           </div>
         </div>
       </button>
 
       <!-- Pizza 5: Quattro Stagioni -->
-      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Quattro Stagioni">
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Quattro Formaggi">
         <div class="pizza-card__inner">
           <div class="pizza-card__front">
             <span class="pizza-card__hint-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             </span>
             <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=760&q=78" alt="Pizza z dodatkami z góry" loading="lazy" />
-            <span class="shot__cap"><span>Bogata</span><b>Quattro Stagioni</b></span>
+            <span class="shot__cap"><span>Cztery sery</span><b>Quattro Formaggi</b></span>
           </div>
           <div class="pizza-card__back">
-            <h3>Quattro Stagioni</h3>
-            <span class="kind">Cztery pory roku</span>
-            <p>Tradycyjne ułożenie sekcyjne: soczysta włoska szynka cotto, świeże pieczarki, delikatne serca karczochów oraz czarne, wyraziste oliwki na podkładzie z sosu pomidorowego i sera.</p>
-            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg> Zbalansowana tradycja</span>
+            <h3>Quattro Formaggi</h3>
+            <span class="kind">Cztery sery</span>
+            <p>Bez sosu pomidorowego: mozzarella, gorgonzola, parmezan i provolone — miejscami złocisty, roztopiony ser.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg> Dla serowych dusz</span>
           </div>
         </div>
       </button>
 
       <!-- Pizza 6: Prosciutto e Rucola -->
-      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Prosciutto">
+      <button type="button" class="pizza-card" aria-label="Sprawdź skład pizzy Capricciosa">
         <div class="pizza-card__inner">
           <div class="pizza-card__front">
             <span class="pizza-card__hint-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             </span>
             <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=760&q=78" alt="Pizza z szynką dojrzewającą z góry" loading="lazy" />
-            <span class="shot__cap"><span>Premium</span><b>Prosciutto</b></span>
+            <span class="shot__cap"><span>Bogata</span><b>Capricciosa</b></span>
           </div>
           <div class="pizza-card__back">
-            <h3>Prosciutto</h3>
-            <span class="kind">Kompozycja premium</span>
-            <p>Dojrzewająca szynka prosciutto crudo, świeże liście pikantnej rukoli oraz płatki parmezanu. Wszystkie te składniki nakładamy na pizzę natychmiast po wyjęciu z pieca.</p>
-            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Składniki po wypieku</span>
+            <h3>Capricciosa</h3>
+            <span class="kind">Bogata kompozycja</span>
+            <p>Sos pomidorowy, mozzarella, szynka, pieczarki, karczochy i oliwki. Klasyka pełna smaku.</p>
+            <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Pełnia smaku</span>
           </div>
         </div>
       </button>
@@ -924,11 +931,11 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
         </li>
         <li>
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span>
-          <div>kontakt@sognarepizza.pl<small>Odpisujemy w 24h</small></div>
+          <div>sognare.pizza@gmail.com<small>Odpisujemy w 24h</small></div>
         </li>
         <li>
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
-          <div>Cała Polska<small>Dojeżdżamy na eventy</small></div>
+          <div>Małopolskie i okolice<small>Dojeżdżamy na eventy</small></div>
         </li>
       </ul>
     </aside>
@@ -944,7 +951,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
 
           <div class="field">
             <label for="phone">Telefon <span class="req" aria-hidden="true">*</span></label>
-            <input class="control" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required placeholder="+48 600 000 000" />
+            <input class="control" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required placeholder="+48 XXXXXXXXX" />
             <span class="error" data-error-for="phone" role="alert"></span>
           </div>
 
@@ -994,14 +1001,29 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
 
           <div class="field">
             <label for="guests">Szacowana liczba gości <span class="req" aria-hidden="true">*</span></label>
-            <input class="control" type="number" id="guests" name="guests" min="1" max="2000" inputmode="numeric" required placeholder="np. 80" />
+            <input class="control" type="number" id="guests" name="guests" min="10" max="2000" inputmode="numeric" required placeholder="np. 80" />
             <span class="error" data-error-for="guests" role="alert"></span>
           </div>
 
           <div class="field">
-            <label for="location">Lokalizacja <span class="hint">(opcjonalnie)</span></label>
-            <input class="control" type="text" id="location" name="location" autocomplete="address-level2" placeholder="Miasto / adres sali" />
-            <span class="error" data-error-for="location" role="alert"></span>
+            <label for="city">Miejscowość (Małopolska) <span class="req" aria-hidden="true">*</span></label>
+            <select class="control" id="city" name="city" required>
+              <option value="" disabled selected>Wybierz miejscowość…</option>
+            </select>
+            <span class="error" data-error-for="city" role="alert"></span>
+          </div>
+
+          <div class="field full cityother" id="cityOtherField">
+            <label for="cityOther">Wpisz nazwę miejscowości <span class="req" aria-hidden="true">*</span></label>
+            <input class="control" type="text" id="cityOther" name="cityOther" placeholder="np. Liszki" />
+            <span class="field-note">Obsługujemy wyłącznie województwo małopolskie.</span>
+            <span class="error" data-error-for="cityOther" role="alert"></span>
+          </div>
+
+          <div class="field full">
+            <label for="address">Adres sali / dokładna lokalizacja <span class="req" aria-hidden="true">*</span></label>
+            <input class="control" type="text" id="address" name="address" autocomplete="street-address" required placeholder="np. ul. Floriańska 12, Hotel X" />
+            <span class="error" data-error-for="address" role="alert"></span>
           </div>
 
           <div class="field full">
@@ -1059,7 +1081,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
         <h4>Kontakt</h4>
         <ul>
           <li><a href="tel:+48600000000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>+48 600 000 000</a></li>
-          <li><a href="mailto:kontakt@sognarepizza.pl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>kontakt@sognarepizza.pl</a></li>
+          <li><a href="mailto:sognare.pizza@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>sognare.pizza@gmail.com</a></li>
           <li><a href="#rezerwacja">Formularz rezerwacji</a></li>
         </ul>
       </div>
@@ -1255,9 +1277,43 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     } else {
       calNote.hidden = true; calNote.textContent = '';
     }
+    updateSubmit();
   });
   calPrev.addEventListener('click', function(){ if(calPrev.disabled) return; viewMonth--; if(viewMonth<0){ viewMonth=11; viewYear--; } renderCalendar(); });
   calNext.addEventListener('click', function(){ viewMonth++; if(viewMonth>11){ viewMonth=0; viewYear++; } renderCalendar(); });
+
+  /* ====================================================================
+     CZĘŚĆ C — WALIDACJA + MIEJSCOWOŚCI MAŁOPOLSKI
+     ==================================================================== */
+  var MAŁOPOLSKA_MIASTA = [
+    'Alwernia','Andrychów','Biecz','Bobowa','Bochnia','Brzesko','Brzeszcze','Bukowno',
+    'Chełmek','Chrzanów','Ciężkowice','Czarny Dunajec','Czchów','Dąbrowa Tarnowska',
+    'Dobczyce','Gorlice','Grybów','Jordanów','Kalwaria Zebrzydowska','Kęty','Koszyce',
+    'Kraków','Krynica-Zdrój','Krzeszowice','Książ Wielki','Libiąż','Limanowa',
+    'Maków Podhalański','Miechów','Mszana Dolna','Muszyna','Myślenice','Niepołomice',
+    'Nowe Brzesko','Nowy Sącz','Nowy Targ','Nowy Wiśnicz','Olkusz','Oświęcim',
+    'Piwniczna-Zdrój','Proszowice','Rabka-Zdrój','Radłów','Ryglice','Skała','Skawina',
+    'Słomniki','Stary Sącz','Sucha Beskidzka','Sułkowice','Szczawnica','Szczucin',
+    'Świątniki Górne','Tarnów','Trzebinia','Tuchów','Wadowice','Wieliczka','Wojnicz',
+    'Wolbrom','Zakliczyn','Zakopane','Zator','Żabno','Inna miejscowość (Małopolska)'
+  ];
+  var OTHER_CITY = 'Inna miejscowość (Małopolska)';
+  var POL = 'A-Za-zĄĆĘŁŃÓŚŻŹąćęłńóśżź';
+  var nameRe = new RegExp('^[' + POL + ']{3,}(-[' + POL + ']{3,})?\\s[' + POL + ']{3,}(-[' + POL + ']{3,})?$');
+  var phoneRe = /^\+48\s?\d{9}$/;
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var cityOtherRe = new RegExp('^[' + POL + '][' + POL + '\\s-]{2,}$');
+
+  /* --- wypełnij listę miejscowości --- */
+  var citySel = document.getElementById('city');
+  var cityOtherField = document.getElementById('cityOtherField');
+  (function(){
+    var frag = document.createDocumentFragment();
+    MAŁOPOLSKA_MIASTA.forEach(function(m){
+      var o = document.createElement('option'); o.value = m; o.textContent = m; frag.appendChild(o);
+    });
+    citySel.appendChild(frag);
+  })();
 
   /* --- walidacja --- */
   function fieldOf(input){ return input.closest('.field'); }
@@ -1278,37 +1334,90 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     }
   }
 
-  var REQUIRED = ['name','phone','date','type','guests'];   // e-mail i lokalizacja opcjonalne
   function validateField(input){
     var v = (input.value || '').trim();
     var name = input.name;
-    if(name === 'rodo'){
-      if(!input.checked){ setError(input,'Zgoda jest wymagana.'); return false; }
-      setError(input,''); return true;
-    }
-    if(REQUIRED.indexOf(name) !== -1 && !v){ setError(input,'To pole jest wymagane.'); return false; }
-    if(name === 'email' && v){
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){ setError(input,'Podaj poprawny adres e-mail.'); return false; }
-    }
-    if(name === 'phone' && v){
-      if(v.replace(/[^0-9]/g,'').length < 9){ setError(input,'Podaj poprawny numer telefonu.'); return false; }
-    }
-    if(name === 'guests' && v){
-      var n = parseInt(v,10);
-      if(isNaN(n) || n < 1){ setError(input,'Podaj liczbę gości (min. 1).'); return false; }
-    }
-    if(name === 'date' && v){
-      if(v < todayStr){ setError(input,'Wybierz datę w przyszłości.'); return false; }
+    switch(name){
+      case 'rodo':
+        if(!input.checked){ setError(input,'Zgoda jest wymagana.'); return false; }
+        break;
+      case 'name':
+        if(!nameRe.test(v)){ setError(input,'Wpisz imię i nazwisko (min. 3 litery każde, oddzielone spacją).'); return false; }
+        break;
+      case 'phone':
+        if(!phoneRe.test(v)){ setError(input,'Numer musi mieć format +48 oraz 9 cyfr.'); return false; }
+        break;
+      case 'email':
+        if(v && !emailRe.test(v)){ setError(input,'Podaj poprawny adres e-mail.'); return false; }
+        break;
+      case 'guests':
+        if(!v){ setError(input,'To pole jest wymagane.'); return false; }
+        if(isNaN(parseInt(v,10)) || parseInt(v,10) < 10){ setError(input,'Minimalna liczba gości to 10.'); return false; }
+        break;
+      case 'type':
+        if(!v){ setError(input,'To pole jest wymagane.'); return false; }
+        break;
+      case 'city':
+        if(MAŁOPOLSKA_MIASTA.indexOf(input.value) === -1){ setError(input,'Wybierz miejscowość z listy.'); return false; }
+        break;
+      case 'cityOther':
+        if(citySel.value !== OTHER_CITY){ setError(input,''); return true; }
+        if(!cityOtherRe.test(v)){ setError(input,'Wpisz poprawną nazwę miejscowości (min. 3 litery).'); return false; }
+        break;
+      case 'address':
+        if(!v){ setError(input,'To pole jest wymagane.'); return false; }
+        break;
+      case 'date':
+        if(!v){ setError(input,'Wybierz datę wydarzenia.'); return false; }
+        if(v < todayStr){ setError(input,'Wybierz datę w przyszłości.'); return false; }
+        break;
     }
     setError(input,'');
     return true;
   }
 
+  /* --- czy cały formularz jest poprawny (bez pokazywania błędów) --- */
+  function checkValidity(){
+    var f = form.elements;
+    if(!nameRe.test((f.name.value||'').trim())) return false;
+    if(!phoneRe.test((f.phone.value||'').trim())) return false;
+    var em = (f.email.value||'').trim();
+    if(em && !emailRe.test(em)) return false;
+    if(!dateInput.value || dateInput.value < todayStr) return false;
+    if(!f.type.value) return false;
+    var g = parseInt(f.guests.value,10); if(isNaN(g) || g < 10) return false;
+    if(MAŁOPOLSKA_MIASTA.indexOf(f.city.value) === -1) return false;
+    if(f.city.value === OTHER_CITY && !cityOtherRe.test((f.cityOther.value||'').trim())) return false;
+    if(!(f.address.value||'').trim()) return false;
+    if(!f.rodo.checked) return false;
+    return true;
+  }
+  function updateSubmit(){ submitBtn.disabled = !checkValidity(); }
+
+  /* --- pokaż/ukryj pole „inna miejscowość" (animowane) --- */
+  function syncCityOther(){
+    if(citySel.value === OTHER_CITY){
+      cityOtherField.hidden = false;
+      requestAnimationFrame(function(){ cityOtherField.classList.add('is-open'); });
+    } else {
+      cityOtherField.classList.remove('is-open');
+      cityOtherField.hidden = true;
+      setError(form.elements.cityOther, '');
+    }
+  }
+  citySel.addEventListener('change', function(){ syncCityOther(); validateField(citySel); updateSubmit(); });
+
+  /* --- prefiks +48 na focusie telefonu --- */
+  var phoneEl = form.elements.phone;
+  phoneEl.addEventListener('focus', function(){ if(!phoneEl.value){ phoneEl.value = '+48 '; } });
+  phoneEl.addEventListener('blur', function(){ if(phoneEl.value.trim() === '+48'){ phoneEl.value = ''; } });
+
+  /* --- walidacja na żywo (oninput / onblur) + aktualizacja przycisku --- */
   Array.prototype.forEach.call(form.elements, function(el){
     if(!el.name) return;
     el.addEventListener('blur', function(){ if(el.type !== 'hidden') validateField(el); });
-    el.addEventListener('input', function(){ var f = fieldOf(el); if(f && f.classList.contains('invalid')) validateField(el); });
-    el.addEventListener('change', function(){ if(el.tagName === 'SELECT' || el.type === 'checkbox') validateField(el); });
+    el.addEventListener('input', function(){ var fl = fieldOf(el); if(fl && fl.classList.contains('invalid')) validateField(el); updateSubmit(); });
+    el.addEventListener('change', function(){ if(el.tagName === 'SELECT' || el.type === 'checkbox') validateField(el); updateSubmit(); });
   });
 
   /* --- ZADANIE 2: stan ładowania + zapis rezerwacji --- */
@@ -1330,7 +1439,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     if(formError){ formError.hidden = true; formError.textContent = ''; }
 
     var firstInvalid = null;
-    ['name','phone','date','type','guests','email','rodo'].forEach(function(n){
+    ['name','phone','date','type','guests','email','city','cityOther','address','rodo'].forEach(function(n){
       var input = form.elements[n];
       if(!input) return;
       if(!validateField(input) && !firstInvalid) firstInvalid = input;
@@ -1342,6 +1451,8 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
       return;
     }
 
+    var cityName = (citySel.value === OTHER_CITY) ? form.elements.cityOther.value.trim() : citySel.value;
+    var addr = form.elements.address.value.trim();
     var payload = {
       imie_nazwisko: form.elements.name.value.trim(),
       telefon: form.elements.phone.value.trim(),
@@ -1349,7 +1460,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
       data_wydarzenia: form.elements.date.value,
       typ_wydarzenia: form.elements.type.value,
       liczba_gosci: parseInt(form.elements.guests.value, 10),
-      lokalizacja: form.elements.location.value.trim(),
+      lokalizacja: addr ? (cityName + ', ' + addr) : cityName,
       wiadomosc: form.elements.message.value.trim()
     };
 
@@ -1387,8 +1498,10 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
       form.reset();
       dateInput.value = '';
       if(calNote){ calNote.hidden = true; calNote.textContent = ''; }
+      syncCityOther();
       Array.prototype.forEach.call(form.querySelectorAll('.field'), function(f){ f.classList.remove('invalid'); });
       Array.prototype.forEach.call(form.querySelectorAll('.error'), function(s){ s.innerHTML = ''; });
+      updateSubmit();
       fetchAvailability();
     }catch(err){
       console.error('Błąd zapisu rezerwacji:', err);
@@ -1403,13 +1516,17 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     form.style.display = '';
     if(formError){ formError.hidden = true; formError.textContent = ''; }
     renderCalendar();
+    updateSubmit();
     form.scrollIntoView({behavior: prefersReduced ? 'auto' : 'smooth', block:'center'});
     form.elements.name.focus();
   });
 
-  /* --- inicjalizacja kalendarza i dostępności --- */
+  /* --- inicjalizacja kalendarza, dostępności i stanu przycisku --- */
+  cityOtherField.hidden = true;
+  syncCityOther();
   renderCalendar();
   fetchAvailability();
+  updateSubmit();
 })();
 </script>
 </body>
