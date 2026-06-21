@@ -295,7 +295,7 @@ section[id], #hero{scroll-margin-top:calc(var(--nav-h) + 12px);}
   width:100%;
   height:100%;
   text-align:left;
-  transition:transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transition:transform 0.65s cubic-bezier(.34,1.56,.64,1);
   transform-style:preserve-3d;
 }
 /* Klasa dodawana przez JavaScript po kliknięciu — obrót + płynne powiększenie */
@@ -308,6 +308,15 @@ section[id], #hero{scroll-margin-top:calc(var(--nav-h) + 12px);}
 .pizza-card.is-flipped .pizza-card__back {
   box-shadow:var(--shadow-lg);
 }
+/* „Podskok" kafelka przy kliknięciu — jak odkrywanie karty w grze w pary */
+@keyframes tileHop{
+  0%{transform:translateY(0);}
+  28%{transform:translateY(-22px);}
+  52%{transform:translateY(0);}
+  72%{transform:translateY(-9px);}
+  100%{transform:translateY(0);}
+}
+.pizza-card.is-hopping{animation:tileHop .58s cubic-bezier(.34,1.56,.64,1);will-change:transform;}
 .pizza-card__front, .pizza-card__back {
   position:absolute;
   inset:0;
@@ -561,6 +570,9 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
   .hero__pizza-img{animation:none!important;}
   /* dekoracyjna pizza kręci się dalej (na życzenie) — wolny, łagodny obrót */
   .pizza-deco__spin{animation:spinPizza 24s linear infinite!important;}
+  /* galeria: obrót + podskok kart pozostają (interakcja na kliknięcie) */
+  .pizza-card__inner{transition-duration:.65s!important;}
+  .pizza-card.is-hopping{animation:tileHop .58s cubic-bezier(.34,1.56,.64,1)!important;}
   .pizza-card__inner{transition:none!important;}
 }
 /* =========================================================
@@ -1167,12 +1179,23 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     revealEls.forEach(function(el){ el.classList.add('is-visible'); });
   }
 
-  /* ---------- INTERAKTYWNA GALERIA: Obracanie kart 3D na kliknięcie ---------- */
+  /* ---------- INTERAKTYWNA GALERIA: obrót 3D + „podskok" jak karta w grze w pary ---------- */
   var gallery = document.getElementById('gallery');
+  function hopTile(card){
+    card.classList.remove('is-hopping');
+    void card.offsetWidth;            // wymuś reflow, aby zrestartować animację przy szybkich kliknięciach
+    card.classList.add('is-hopping');
+  }
   gallery.addEventListener('click', function(e) {
     var card = e.target.closest('.pizza-card');
     if (card) {
       card.classList.toggle('is-flipped');
+      hopTile(card);
+    }
+  });
+  gallery.addEventListener('animationend', function(e) {
+    if (e.animationName === 'tileHop' && e.target.classList && e.target.classList.contains('pizza-card')) {
+      e.target.classList.remove('is-hopping');
     }
   });
 
