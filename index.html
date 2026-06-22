@@ -206,7 +206,8 @@ section[id], #hero{scroll-margin-top:calc(var(--nav-h) + 12px);}
    JAK TO DZIAŁA
    ========================================================= */
 .how{background:linear-gradient(180deg,var(--cream) 0%, var(--cream-deep) 100%);}
-.how__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.4vw,34px);align-items:start;}
+.how__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.4vw,34px);align-items:stretch;}
+.how__grid .feature:nth-child(2){align-self:start;}
 .feature{
   background:var(--cream-soft);border:1px solid rgba(26,26,26,.07);border-radius:var(--radius-lg);
   padding:clamp(26px,2.6vw,40px);box-shadow:var(--shadow-sm);
@@ -1017,6 +1018,14 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
           </div>
 
           <div class="field">
+            <label for="godzina">Godzina wydarzenia <span class="req" aria-hidden="true">*</span></label>
+            <select class="control" id="godzina" name="godzina" required>
+              <option value="" disabled selected>Wybierz godzinę…</option>
+            </select>
+            <span class="error" data-error-for="godzina" role="alert"></span>
+          </div>
+
+          <div class="field full">
             <label for="guests">Szacowana liczba gości <span class="req" aria-hidden="true">*</span></label>
             <input class="control" type="number" id="guests" name="guests" min="10" max="2000" inputmode="numeric" required placeholder="np. 80" />
             <span class="error" data-error-for="guests" role="alert"></span>
@@ -1299,12 +1308,15 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     var f = document.getElementById('dateField');
     f.classList.remove('invalid');
     var slot = form.querySelector('[data-error-for="date"]'); if(slot) slot.innerHTML = '';
-    if(availability[btn.dataset.date] === 'pomaranczowy'){
+    var orange = (availability[btn.dataset.date] === 'pomaranczowy');
+    if(orange){
       calNote.hidden = false;
-      calNote.textContent = 'Tego dnia jest już mniejsza impreza – skontaktuj się.';
+      calNote.textContent = 'Tego dnia jest już mniejsza impreza – maksymalnie 100 gości.';
     } else {
       calNote.hidden = true; calNote.textContent = '';
     }
+    form.elements.guests.max = orange ? '100' : '2000';
+    if(form.elements.guests.value) validateField(form.elements.guests);
     updateSubmit();
   });
   calPrev.addEventListener('click', function(){ if(calPrev.disabled) return; viewMonth--; if(viewMonth<0){ viewMonth=11; viewYear--; } renderCalendar(); });
@@ -1343,6 +1355,20 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     citySel.appendChild(frag);
   })();
 
+  /* --- godziny 09:00–20:00 co 30 minut --- */
+  (function(){
+    var sel = document.getElementById('godzina');
+    var f = document.createDocumentFragment();
+    for(var h=9; h<=20; h++){
+      for(var mi=0; mi<60; mi+=30){
+        if(h===20 && mi>0) break;
+        var t = String(h).padStart(2,'0') + ':' + String(mi).padStart(2,'0');
+        var o = document.createElement('option'); o.value = t; o.textContent = t; f.appendChild(o);
+      }
+    }
+    sel.appendChild(f);
+  })();
+
   /* --- walidacja --- */
   function fieldOf(input){ return input.closest('.field'); }
   function errorSlot(name){ return form.querySelector('[data-error-for="'+name+'"]'); }
@@ -1378,9 +1404,14 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
       case 'email':
         if(v && !emailRe.test(v)){ setError(input,'Podaj poprawny adres e-mail.'); return false; }
         break;
+      case 'godzina':
+        if(!v){ setError(input,'Wybierz godzinę.'); return false; }
+        break;
       case 'guests':
         if(!v){ setError(input,'To pole jest wymagane.'); return false; }
-        if(isNaN(parseInt(v,10)) || parseInt(v,10) < 10){ setError(input,'Minimalna liczba gości to 10.'); return false; }
+        var gv = parseInt(v,10);
+        if(isNaN(gv) || gv < 10){ setError(input,'Minimalna liczba gości to 10.'); return false; }
+        if(availability[dateInput.value] === 'pomaranczowy' && gv > 100){ setError(input,'W tym terminie (mniejsza impreza) maksymalnie 100 gości.'); return false; }
         break;
       case 'type':
         if(!v){ setError(input,'To pole jest wymagane.'); return false; }
@@ -1413,7 +1444,9 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     if(em && !emailRe.test(em)) return false;
     if(!dateInput.value || dateInput.value < todayStr) return false;
     if(!f.type.value) return false;
+    if(!f.godzina.value) return false;
     var g = parseInt(f.guests.value,10); if(isNaN(g) || g < 10) return false;
+    if(availability[dateInput.value] === 'pomaranczowy' && g > 100) return false;
     if(MAŁOPOLSKA_MIASTA.indexOf(f.city.value) === -1) return false;
     if(f.city.value === OTHER_CITY && !cityOtherRe.test((f.cityOther.value||'').trim())) return false;
     if(!(f.address.value||'').trim()) return false;
@@ -1467,7 +1500,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
     if(formError){ formError.hidden = true; formError.textContent = ''; }
 
     var firstInvalid = null;
-    ['name','phone','date','type','guests','email','city','cityOther','address','rodo'].forEach(function(n){
+    ['name','phone','date','type','godzina','guests','email','city','cityOther','address','rodo'].forEach(function(n){
       var input = form.elements[n];
       if(!input) return;
       if(!validateField(input) && !firstInvalid) firstInvalid = input;
@@ -1481,6 +1514,8 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
 
     var cityName = (citySel.value === OTHER_CITY) ? form.elements.cityOther.value.trim() : citySel.value;
     var addr = form.elements.address.value.trim();
+    var godz = form.elements.godzina.value;
+    var msg = form.elements.message.value.trim();
     var payload = {
       imie_nazwisko: form.elements.name.value.trim(),
       telefon: form.elements.phone.value.trim(),
@@ -1489,7 +1524,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
       typ_wydarzenia: form.elements.type.value,
       liczba_gosci: parseInt(form.elements.guests.value, 10),
       lokalizacja: addr ? (cityName + ', ' + addr) : cityName,
-      wiadomosc: form.elements.message.value.trim()
+      wiadomosc: 'Godzina wydarzenia: ' + godz + (msg ? ('. ' + msg) : '')
     };
 
     setLoading(true);
@@ -1510,6 +1545,7 @@ select.control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www
       var rows = [
         ['Imię i nazwisko', payload.imie_nazwisko],
         ['Data wydarzenia', dateStr],
+        ['Godzina', godz],
         ['Typ wydarzenia', typeLabels[payload.typ_wydarzenia] || payload.typ_wydarzenia],
         ['Liczba gości', payload.liczba_gosci + ' os.'],
         ['Telefon', payload.telefon]
